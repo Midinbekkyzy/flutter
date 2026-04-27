@@ -95,6 +95,16 @@ class AppDrawer extends StatelessWidget {
               );
             },
           ),
+
+          Divider(),
+          SwitchListTile(
+            secondary: Icon(Icons.dark_mode, color: Colors.black54),
+            title: Text('Ночной режим'),
+            value: false,
+            onChanged: (bool value) {
+              print("Переключили тему на: $value");
+            },
+          ),
         ],
       ),
     );
