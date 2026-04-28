@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/lesson6/appDrawer.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final Function(bool) onThemeChanged;
+  final ThemeMode themeMode;
 
+  const HomePage({
+    super.key,
+    required this.onThemeChanged,
+    required this.themeMode,
+  });
   @override
   Widget build(BuildContext context) {
     final List<Map<String, String>> chats = [
@@ -24,21 +30,20 @@ class HomePage extends StatelessWidget {
     ];
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        //backgroundColor: Colors.white,
         elevation: 0,
-        title: const Text('Telegram', style: TextStyle(color: Colors.black)),
+        title: const Text('Telegram'),
         centerTitle: true,
         leading: Builder(
           builder:
               (context) => IconButton(
-                icon: const Icon(Icons.menu, color: Colors.black),
+                icon: const Icon(Icons.menu),
                 onPressed: () => Scaffold.of(context).openDrawer(),
               ),
         ),
       ),
-      drawer: const AppDrawer(),
+      drawer: AppDrawer(onThemeChanged: onThemeChanged, themeMode: themeMode),
       body: ListView.separated(
         itemCount: chats.length,
         separatorBuilder: (context, index) => const Divider(height: 1),

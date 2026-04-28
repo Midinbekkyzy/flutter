@@ -22,22 +22,22 @@ class ContactPage extends StatelessWidget {
     ];
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F6F8),
+      //backgroundColor: const Color(0xFFF5F6F8),
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        //backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Контакты', style: TextStyle(color: Colors.black)),
+        title: const Text('Контакты'),
         centerTitle: true,
       ),
       body: ListView.builder(
         itemCount: contacts.length,
         itemBuilder: (context, index) {
           return Container(
-            color: Colors.white,
+            //color: Colors.white,
             child: ListTile(
               leading: CircleAvatar(
                 radius: 22,

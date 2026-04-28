@@ -5,7 +5,14 @@ import 'package:flutter_application_1/lesson6/help.dart';
 import 'package:flutter_application_1/lesson6/settingsPage.dart';
 
 class AppDrawer extends StatelessWidget {
-  const AppDrawer({super.key});
+  final Function(bool) onThemeChanged;
+  final ThemeMode themeMode;
+
+  const AppDrawer({
+    super.key,
+    required this.onThemeChanged,
+    required this.themeMode,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -98,11 +105,11 @@ class AppDrawer extends StatelessWidget {
 
           Divider(),
           SwitchListTile(
-            secondary: Icon(Icons.dark_mode, color: Colors.black54),
+            secondary: Icon(Icons.dark_mode),
             title: Text('Ночной режим'),
-            value: false,
+            value: themeMode == ThemeMode.dark,
             onChanged: (bool value) {
-              print("Переключили тему на: $value");
+              onThemeChanged(value);
             },
           ),
         ],
@@ -116,10 +123,6 @@ class AppDrawer extends StatelessWidget {
     required String title,
     required VoidCallback onTap,
   }) {
-    return ListTile(
-      leading: Icon(icon, color: Colors.black12),
-      title: Text(title),
-      onTap: onTap,
-    );
+    return ListTile(leading: Icon(icon), title: Text(title), onTap: onTap);
   }
 }

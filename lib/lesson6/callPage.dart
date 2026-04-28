@@ -11,7 +11,6 @@ class CallPage extends StatelessWidget {
       {"name": "яработа", "date": "20 мая", "char": "М", "income": true},
     ];
 
-    // Список цветов для аватарок
     final List<Color> avatarColors = [
       const Color(0xFF7CB3F3),
       const Color(0xFF95CCF4),
@@ -19,12 +18,14 @@ class CallPage extends StatelessWidget {
     ];
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F6F8),
       appBar: AppBar(
-        backgroundColor: Colors.white,
         elevation: 0,
-        leading: const Icon(Icons.arrow_back, color: Colors.black),
-        title: const Text('Звонки', style: TextStyle(color: Colors.black)),
+        // backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text('Звонки'),
         centerTitle: true,
       ),
       body: ListView.builder(
@@ -32,7 +33,7 @@ class CallPage extends StatelessWidget {
         itemBuilder: (context, index) {
           return Container(
             margin: const EdgeInsets.only(bottom: 1),
-            color: Colors.white,
+            //color: Colors.white,
             child: ListTile(
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 16,
