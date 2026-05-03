@@ -33,22 +33,57 @@ class RegistrationPageState extends State<RegistrationPage> {
 
   void submitform() {
     if (formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Регистрация прошла успешно!')));
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder:
-              (_) => ResultPage(
-                name: nameController.text,
-                surname: surnameController.text,
-                phone: phoneController.text,
-                email: emailController.text,
-                login: loginController.text,
-                password: passwordController.text,
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Подтверждение'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: [
+                  Text('Имя: ${nameController.text}'),
+                  Text('Фамилия: ${surnameController.text}'),
+                  Text('Телефон: ${phoneController.text}'),
+                  Text('Email: ${emailController.text}'),
+                  Text('Логин: ${loginController.text}'),
+                ],
               ),
-        ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context); // закрыть диалог
+                },
+                child: Text('Отмена'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context); // закрыть диалог
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Регистрация прошла успешно!')),
+                  );
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (_) => ResultPage(
+                            name: nameController.text,
+                            surname: surnameController.text,
+                            phone: phoneController.text,
+                            email: emailController.text,
+                            login: loginController.text,
+                            password: passwordController.text,
+                          ),
+                    ),
+                  );
+                },
+                child: Text('ОК'),
+              ),
+            ],
+          );
+        },
       );
     }
   }
