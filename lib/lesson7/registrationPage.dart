@@ -17,6 +17,7 @@ class RegistrationPageState extends State<RegistrationPage> {
   final emailController = TextEditingController();
   final loginController = TextEditingController();
   final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
@@ -26,6 +27,7 @@ class RegistrationPageState extends State<RegistrationPage> {
     emailController.dispose();
     loginController.dispose();
     passwordController.dispose();
+    confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -138,6 +140,23 @@ class RegistrationPageState extends State<RegistrationPage> {
                   }
                   if (value.length < 6) {
                     return 'Пароль должен быть не менее 6 символов';
+                  }
+                  return null;
+                },
+              ),
+              buildTextField(
+                controller: confirmPasswordController,
+                label: 'Повторите пароль',
+                obscureText: true,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Введите пароль';
+                  }
+                  if (value.length < 6) {
+                    return 'Пароль должен быть не менее 6 символов';
+                  }
+                  if (value != passwordController.text) {
+                    return 'Пароли не совпадают';
                   }
                   return null;
                 },
