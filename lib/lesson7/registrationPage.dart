@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/lesson7/resultPage.dart';
 
 class RegistrationPage extends StatefulWidget {
   RegistrationPage({super.key});
@@ -33,13 +34,27 @@ class RegistrationPageState extends State<RegistrationPage> {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Регистрация прошла успешно!')));
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder:
+              (_) => ResultPage(
+                name: nameController.text,
+                surname: surnameController.text,
+                phone: phoneController.text,
+                email: emailController.text,
+                login: loginController.text,
+                password: passwordController.text,
+              ),
+        ),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Регистрация'),),
+      appBar: AppBar(title: Text('Регистрация')),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Form(
@@ -47,21 +62,101 @@ class RegistrationPageState extends State<RegistrationPage> {
           child: Column(
             children: [
               buildTextField(
-                controller: nameController, 
-                label: 'Имя'
+                controller: nameController,
+                label: 'Имя',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Пожалуйста, введите имя';
+                    return 'Введите имя';
+                  }
+                  if (!RegExp(r'^[a-zA-Zа-яА-ЯёЁ]+$').hasMatch(value)) {
+                    return 'Только буквы';
                   }
                   return null;
                 },
               ),
+              buildTextField(
+                controller: surnameController,
+                label: 'Фамилия',
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Введите фамилию';
+                  }
+                  if (!RegExp(r'^[a-zA-Zа-яА-ЯёЁ]+$').hasMatch(value)) {
+                    return 'Только буквы';
+                  }
+                  return null;
+                },
+              ),
+              buildTextField(
+                controller: phoneController,
+                label: 'Телефон',
+                keyboardType: TextInputType.phone,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Введите телефон';
+                  }
+                  if (!RegExp(r'^\+?[0-9]{1,15}$').hasMatch(value)) {
+                    return 'Неверный формат телефона';
+                  }
+                  return null;
+                },
+              ),
+              buildTextField(
+                controller: emailController,
+                label: 'Email',
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Введите email';
+                  }
+                  if (!RegExp(r'^[\w-]+@([\w-]+\.)+[\w-]+$').hasMatch(value)) {
+                    return 'Неверный формат email';
+                  }
+                  return null;
+                },
+              ),
+              buildTextField(
+                controller: loginController,
+                label: 'Логин',
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Введите логин';
+                  }
+                  if (value.length < 3) {
+                    return 'Логин должен быть не менее 3 символов';
+                  }
+                  return null;
+                },
+              ),
+              buildTextField(
+                controller: passwordController,
+                label: 'Пароль',
+                obscureText: true,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Введите пароль';
+                  }
+                  if (value.length < 6) {
+                    return 'Пароль должен быть не менее 6 символов';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: submitform,
+                  child: Text('Зарегистрироваться'),
+                ),
+              ),
             ],
-          ) ,
+          ),
         ),
       ),
     );
   }
+
   Widget buildTextField({
     required TextEditingController controller,
     required String label,
@@ -82,7 +177,6 @@ class RegistrationPageState extends State<RegistrationPage> {
           border: OutlineInputBorder(),
         ),
         validator: validator,
-        
       ),
     );
   }
