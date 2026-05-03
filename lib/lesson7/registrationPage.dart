@@ -52,13 +52,13 @@ class RegistrationPageState extends State<RegistrationPage> {
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.pop(context); // закрыть диалог
+                  Navigator.pop(context);
                 },
                 child: Text('Отмена'),
               ),
               TextButton(
                 onPressed: () {
-                  Navigator.pop(context); // закрыть диалог
+                  Navigator.pop(context);
 
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Регистрация прошла успешно!')),
