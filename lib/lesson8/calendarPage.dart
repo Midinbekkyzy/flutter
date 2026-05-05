@@ -59,6 +59,59 @@ class _CalendarPageState extends State<CalendarPage> {
     );
   }
 
+  void _editEvent(int index) {
+    final events = _getEventsForDay(_selectedDay);
+    final controller = TextEditingController(text: events[index]);
+
+    showDialog(
+      context: context,
+      builder:
+          (_) => AlertDialog(
+            title: Text('Редактировать'),
+            content: TextField(controller: controller),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('Отмена'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  if (controller.text.isNotEmpty) {
+                    final key = DateTime(
+                      _selectedDay.year,
+                      _selectedDay.month,
+                      _selectedDay.day,
+                    );
+
+                    setState(() {
+                      _events[key]![index] = controller.text;
+                    });
+                  }
+                  Navigator.pop(context);
+                },
+                child: Text('Сохранить'),
+              ),
+            ],
+          ),
+    );
+  }
+
+  void _deleteEvent(int index) {
+    final key = DateTime(
+      _selectedDay.year,
+      _selectedDay.month,
+      _selectedDay.day,
+    );
+
+    setState(() {
+      _events[key]!.removeAt(index);
+
+      if (_events[key]!.isEmpty) {
+        _events.remove(key);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final events = _getEventsForDay(_selectedDay);
@@ -135,6 +188,24 @@ class _CalendarPageState extends State<CalendarPage> {
                             child: ListTile(
                               leading: Icon(Icons.event),
                               title: Text(events[index]),
+
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    icon: Icon(Icons.edit, color: Colors.blue),
+                                    onPressed: () {
+                                      _editEvent(index);
+                                    },
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.delete, color: Colors.red),
+                                    onPressed: () {
+                                      _deleteEvent(index);
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                     ),
